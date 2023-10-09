@@ -30,6 +30,10 @@ Note the two Docker arguments that we're providing:
 TODO: Latest concourse-fly is 7.2.0, but server runs 7.10.0, and they're not compatible. Build our own docker image?
 NOTE: Correct version of CLI can be downloaded from the server at http://localhost:8080/api/v1/cli?arch=amd64&platform=darwin
 
+### Connect to GitHub
+
+Works automatically for public repos. See "git" resource documentation for auth methods for private repos.
+
 ## Interact
 
 ```
@@ -49,6 +53,9 @@ How long has Concourse been around? Earliest Docker image https://hub.docker.com
 
 How do I add new folders to the UI? There's no "main" in the yml or the commands, I guess there's a default folder. 
 
+How do you develop on a Concourse repo? Can I apply a configuration just to one branch, and then merge it? 
+	How can I apply new configs on `git push`, without requiring a manual step?
 
+How do I securely store an SSH key for polling private GitHub repos?
 
 
