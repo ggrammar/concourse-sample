@@ -1,0 +1,15 @@
+jobs:
+- name: hello-world-job
+  # Concourse will run steps (plan members) in the order that they are listed.
+  # A step is a single container running on a Concourse worker. Each step runs in its own container.
+  plan:
+  - task: hello-world-task
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: busybox
+      run:
+        path: echo
+        args: ["Hello world!"]
