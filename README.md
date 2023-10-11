@@ -44,18 +44,41 @@ fly -t tutorial unpause-pipeline -p hello-world
 fly -t tutorial trigger-job --job hello-world/hello-world-job --watch
 ```
 
+This is wild - `fly intercept`, plug in to a build container to investigate it. 
+`./fly -t tutorial intercept -u http://localhost:8080/teams/main/pipelines/hello-world/resources/repo`
+
 
 ## Open Questions
 
-How long has Concourse been around? Earliest Docker image https://hub.docker.com/r/teliaoss/concourse-fly/tags?page=1&ordering=-last_updated is from April 2021, so 2.5 years. 
-	https://github.com/concourse/concourse/releases?page=20 suggests Jan 27th 2015, 
-	last release by vito was Feb 16 2021, maybe project changed ownership?
+### How can I share a resource with many pipelines?
 
-How do I add new folders to the UI? There's no "main" in the yml or the commands, I guess there's a default folder. 
+Looks like v5.0.0 introduced "Global Resources", https://concourse-ci.org/global-resources.html . Global resources deduplicate "check" commands based on `resources.type` and `resources.source`. 
 
-How do you develop on a Concourse repo? Can I apply a configuration just to one branch, and then merge it? 
+For my use case, I'd like to share one private SSH key with many repositories, so that anyone who creates a build is able to clone private repos. It doesn't seem like this is really supported - if `resources.source` has to be identical, I'd need to provide the private SSH key in every config.
+
+https://concourse-ci.org/creds.html might have more of what I'm looking for. 
+
+### How do I add new folders to the UI? There's no "main" in the yml or the commands, I guess there's a default folder. I think this might be called "teams"?
+
+### How do you develop on a Concourse repo? Can I apply a configuration just to one branch, and then merge it? 
 	How can I apply new configs on `git push`, without requiring a manual step?
+	https://concourse-ci.org/multi-branch-workflows.html probably has some details on this
 
-How do I securely store an SSH key for polling private GitHub repos?
+### How do I clone a repo? I have a "git" resource set up to trigger new builds, can I also use that to get access to that commit's code?
+I know we have the 'git' resource. Does this clone the full repo every time? Do we have any caching here?
+
+### How do I securely store an SSH key for polling private GitHub repos?
+	I think I'd want some way to provide one resource to many build plans.
+	https://concourse-ci.org/global-resources.html
+
+## Answered Questions
+
+### How long has Concourse been around?
+
+Earliest release is 27 Jan 2015: https://github.com/concourse/concourse/releases?page=20 . Based on releases, it looks like the last release by vito was 16 February 2021, maybe the project changed ownership then? 
+
+
+
+
 
 
